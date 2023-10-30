@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recomendaciones de Películas</title>
+</head>
+<body>
+    <h1>Recomendaciones de Películas</h1>
+    <h2>Recomendaciones basadas en tus selecciones:</h2>
+    <ul>
+        {% for movie in recommended_movies %}
+        <li>{{ movie }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

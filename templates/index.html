@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Películas Aleatorias</title>
+</head>
+<body>
+    <h1>Películas Aleatorias</h1>
+    <form action="/recommendations" method="post">
+        <h2>Selecciona 5 películas:</h2>
+        <ul>
+            {% for movie in random_movies.iterrows() %}
+            <li>
+                <input type="checkbox" name="selected_movies" value="{{ movie.1.title }}">{{ movie.1.title }}
+            </li>
+            {% endfor %}
+        </ul>
+        <input type="submit" value="Obtener Recomendaciones">
+    </form>
+</body>
+</html>
