@@ -1,3 +1,5 @@
+## Mini tuto para poder ejecutar el siguiente app en sus maquinas
+
  pip install Flask
 
 //conesto instalan venv 
