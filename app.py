@@ -51,6 +51,8 @@ cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 def index():
     # Selecciona 20 películas aleatorias
     random_movies = movies.sample(n=20)
+    
+    
 
     # Simula la selección del usuario de 5 películas
     user_selection = random_movies.sample(n=5)['title']
