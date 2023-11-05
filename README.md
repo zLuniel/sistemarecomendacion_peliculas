@@ -1,15 +1,22 @@
-## Mini tuto para poder ejecutar el siguiente app en sus maquinas
+## Mini tutorial para ejecutar la siguiente aplicación en sus máquinas 🚀
 
- pip install Flask
+```bash
+# Paso 1: Instalar Flask
+pip install Flask
 
-//conesto instalan venv 
+# Paso 2: Configurar un entorno virtual
+# Si no tienes venv instalado, ejecuta:
 python -m ensurepip --default-pip
 
-//despues crean el entorno donde se genera la app
+# Paso 3: Crear y activar el entorno virtual
 python -m venv myenv
 
-//Activan el entorno
+# En sistemas Windows:
 myenv\Scripts\activate
 
-//Dentro del entorno instalan lo siguiente  como Pandas, Scikit-learn, Flask, etc.,
+# En sistemas Unix/Linux:
+source myenv/bin/activate
+
+# Paso 4: Instalar las dependencias
+# Dentro del entorno virtual, instala las siguientes dependencias:
 pip install pandas scikit-learn Flask
