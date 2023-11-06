@@ -24,38 +24,63 @@
         }
         .carousel-image {
             max-height: 400px;
+            object-fit: cover; /* Ajusta la imagen para que cubra todo el espacio disponible */
         }
         /* Personaliza el estilo del hero */
+        
+        
         .hero {
-            background-image: url('https://www.infobae.com/new-resizer/djDtnJmYphsbG9wzybdisDINLjA=/1200x1800/filters:format(webp):quality(85)/cloudfront-us-east-1.images.arcpublishing.com/infobae/H2DVBWCFAZGYDFWWN4TEASWRZI.jpg');
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%), url('{{ backdrop_url }}') no-repeat center center;
             background-size: cover;
-            background-position: center;
-            height: 500px; /* Ajusta la altura del hero según tus necesidades */
+            height: 600px; /* Ajusta la altura del hero según tus necesidades */
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-center: center;
+            position: relative; /* Para el posicionamiento absoluto del título */
+        }
+        .hero-title {
+            position: absolute;
+            left: 0;
+            padding: 1rem; /* Ajusta el padding según tus necesidades */
+            background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para el texto */
         }
         .hero-text {
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 2; /* Asegúrate de que el texto está sobre el fondo */
         }
-        
     </style>
 
-    <header class="bg-black p-4">
+    <header class="bg-gradient-to-none from-red-500 to-transparent p-4">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-semibold">Películas Aleatorias</h1>
+            <div class="flex items-center">
+                <img src="logo.jpg" alt="Logo" class="h-8 mr-2">
+                <h1 class="text-2xl font-semibold text-white">Películas Aleatorias</h1>
+            </div>
+            <nav>
+                <ul class="flex">
+                    <li class="mr-6">
+                        <a href="#" class="text-white hover:text-gray-400">Inicio</a>
+                    </li>
+                    <li class="mr-6">
+                        <a href="#" class="text-white hover:text-gray-400">Películas</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-white hover:text-gray-400">Contacto</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </header>
     
     
-    <!-- Hero con película aleatoria -->
-    <!-- <section class="hero">
-        <div class="container mx-auto text-center">
-            <h2 class="text-4xl font-semibold text-white hero-text">Película Aleatoria</h2>
-            <p class="text-xl text-white hero-text">Disfruta de nuestra selección</p>
-        </div>
-    </section> -->
+    <!-- Hero con película aleatoria y degradado -->
+<section class="relative hero bg-cover bg-center h-500 flex items-center justify-center" style="background-image: url('{{ backdrop_url }}');">
+    <div class="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-50"></div>
+    <div class="z-10 text-left ml-10">
+        <h2 class="text-4xl font-semibold text-white drop-shadow-lg">Título de la Película</h2>
+        <!-- Más texto o botones aquí si lo deseas -->
+    </div>
+</section>
+
 
     <main class="container mx-auto my-8">
         <h2 class="text-xl font-semibold mb-4">Selecciona 5 películas:</h2>
