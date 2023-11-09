@@ -177,6 +177,17 @@ tfidf_matrix = tfidf_vectorizer.fit_transform(movies['features'])
 # Cálculo de similitud del coseno
 cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
 
+# Función para obtener la sinopsis de una película desde TMDb
+def get_movie_overview(movie_id):
+    tmdb_endpoint = f'movie/{movie_id}'
+    params = {'language': 'es'}  # Cambia 'es' por el código de idioma que prefieras
+    data = tmdb_request(tmdb_endpoint, params)
+    
+    if data:
+        return data.get('overview', '')
+        return overview
+    return ''
+
 # Ruta para mostrar recomendaciones al usuario
 @app.route('/')
 def index():
@@ -184,7 +195,7 @@ def index():
     user_selection = random_movies.sample(n=5)['title']
     backdrop_url = get_random_backdrop()
     full_backdrop_url = f"https://image.tmdb.org/t/p/w1280{backdrop_url}" if backdrop_url else None
-    
+
     return render_template('index.html', random_movies=random_movies, user_selection=user_selection, backdrop_url=full_backdrop_url)
 
 # Ruta para mostrar recomendaciones
@@ -212,4 +223,3 @@ def recommendations():
 if __name__ == '__main__':
     app.run(debug=True)
 #prueba sabino
-

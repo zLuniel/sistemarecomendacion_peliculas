@@ -79,7 +79,7 @@
         <h2 class="text-4xl font-semibold text-white drop-shadow-lg">Título de la Película</h2>
         <!-- Más texto o botones aquí si lo deseas -->
 
-        
+
     </div>
 </section>
 
@@ -106,6 +106,19 @@
                 <input type="submit" value="Obtener Recomendaciones" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-full transition duration-300">
             </div>
         </form>
+        
+        
+        
+<!-- Mostrar selección del usuario con sinopsis -->
+<h2>Selección del Usuario con Sinopsis</h2>
+<ul>
+    {% for movie_details in user_selection %}
+        <li>
+            <strong>{{ movie_details['movie_title'] }}</strong>
+            <p>{{ movie_details['overview'] }}</p>
+        </li>
+    {% endfor %}
+</ul>
     </main>
 
     <!-- Script para inicializar el carrusel -->
