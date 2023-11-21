@@ -115,6 +115,7 @@ from flask import Flask, render_template, request
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
 import requests
+import math
 
 app = Flask(__name__)
 
@@ -122,9 +123,26 @@ app = Flask(__name__)
 def tmdb_request(endpoint, params=None):
     base_url = 'https://api.themoviedb.org/3/'
     api_key = '2af2da82d49b988704b95e0a53661965'  # Reemplaza con tu propia API key
+    pages = 1
+    data = {}
 
     if params is None:
         params = {}
+    else:
+        if('page' in params):
+            pages = params['page']
+    if pages > 1:
+        for i in range(1, pages + 1):
+            response = requests.get('{}{}'.format(base_url, endpoint), params={'api_key': api_key})
+            if (i==1):
+                data = response.json()
+            else:
+                data['results'].extend(response.json()['results'])
+                data['page'] = i
+    else:
+        response = requests.get('{}{}'.format(base_url, endpoint), params={'api_key': api_key})
+        data = response.json()
+    return data        
 
     params['api_key'] = api_key
 
@@ -149,17 +167,21 @@ def get_random_backdrop():
     return None
 
 # Realiza una solicitud para obtener películas populares de TMDb
-def get_tmdb_movies():
+def get_tmdb_movies(n=20): 
+    pages = int(math.ceil(n/20))
     tmdb_endpoint = 'discover/movie'
+    
+
     params = {
-        'page': 1,
+        'page': pages,
         'primary_release_date.gte': '2010-01-01',
         'sort_by': 'revenue.desc'
     }
     return tmdb_request(tmdb_endpoint, params)
 
 # Obtener datos de películas desde TMDb
-tmdb_data = get_tmdb_movies()
+max_random_movies = 60 #Numero maximo de peliculas por peticion
+tmdb_data = get_tmdb_movies(max_random_movies)
 
 # Comprobar si se obtuvieron datos válidos desde TMDb
 if tmdb_data:
@@ -191,7 +213,8 @@ def get_movie_overview(movie_id):
 # Ruta para mostrar recomendaciones al usuario
 @app.route('/')
 def index():
-    random_movies = movies.sample(n=20)
+    global max_random_movies
+    random_movies = movies.sample(n = max_random_movies)
     user_selection = random_movies.sample(n=5)['title']
     backdrop_url = get_random_backdrop()
     full_backdrop_url = f"https://image.tmdb.org/t/p/w1280{backdrop_url}" if backdrop_url else None
