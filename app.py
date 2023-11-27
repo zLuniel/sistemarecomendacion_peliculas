@@ -177,6 +177,9 @@ def get_tmdb_movies(n=20):
         'primary_release_date.gte': '2010-01-01',
         'sort_by': 'revenue.desc'
     }
+    if genre_id:
+        params['with_genres'] = str(genre_id) # Agrega el ID del género si se proporciona
+
     return tmdb_request(tmdb_endpoint, params)
 
 # Obtener datos de películas desde TMDb
@@ -219,7 +222,68 @@ def index():
     backdrop_url = get_random_backdrop()
     full_backdrop_url = f"https://image.tmdb.org/t/p/w1280{backdrop_url}" if backdrop_url else None
 
-    return render_template('index.html', random_movies=random_movies, user_selection=user_selection, backdrop_url=full_backdrop_url)
+    #Radilla(---
+    carousel_movies = movies.sample(n=20)
+
+    #GENEROS Y ID
+    #Acción: 28     Aventura: 12        Animación: 16   Comedia: 35
+    #Crimen: 80     Documental: 99      Drama: 18       Familia: 10751
+    #Fantasía: 14   Historia: 36        Terror: 27      Música: 10402
+    #Misterio: 9648 Romance: 10749      Ciencia ficción: 878    
+    #Suspenso: 53   Bélica: 10752       Western: 37     Película de TV: 10770
+
+
+    # Obtener películas de un género específico
+    tmdb_data_animation = get_tmdb_movies(max_random_movies, genre_id=16)  # Pasar el ID del género 'Animación'
+    movies_animation = pd.DataFrame()
+
+    if tmdb_data_animation:
+        movies_animation = pd.DataFrame(tmdb_data_animation['results'])
+        movies_animation['features'] = movies_animation['title'] + ' ' + movies_animation['overview']
+        movies_animation['genre_id'] = 16    # Agregar una columna 'genre_id' con el ID del género 'Animación'
+        movies_animation = movies_animation[movies_animation['genre_ids'].apply(lambda x: 16 in x)]
+    else:
+        movies_animation=pd.DataFrame() # Crear un DataFrame vacío si no se encuentran películas
+    #--------------------------------------------------------------------------------
+    # Obtener películas de un género específico
+    tmdb_data_Fiction = get_tmdb_movies(max_random_movies, genre_id=878)  # Pasar el ID del género 'Ficcion'
+
+    if tmdb_data_Fiction:
+        movies_Fiction = pd.DataFrame(tmdb_data_Fiction['results'])
+        movies_Fiction['features'] = movies_Fiction['title'] + ' ' + movies_Fiction['overview']
+        movies_Fiction['genre_id'] = 878    # Agregar una columna 'genre_id' con el ID del género 'Ficcion'
+        movies_Fiction = movies_Fiction[movies_Fiction['genre_ids'].apply(lambda x: 878 in x)]
+    else:
+        movies_Fiction=pd.DataFrame() # Crear un DataFrame vacío si no se encuentran películas
+    #--------------------------------------------------------------------------------
+    # Obtener películas de un género específico
+    tmdb_data_Aventure = get_tmdb_movies(max_random_movies, genre_id=12)  # Pasar el ID del género 'Aventura'
+
+    if tmdb_data_Aventure:
+        movies_Aventure = pd.DataFrame(tmdb_data_Aventure['results'])
+        movies_Aventure['features'] = movies_Aventure['title'] + ' ' + movies_Aventure['overview']
+        movies_Fiction['genre_id'] = 12    # Agregar una columna 'genre_id' con el ID del género 'Aventura'
+        movies_Aventure = movies_Aventure[movies_Aventure['genre_ids'].apply(lambda x: 12 in x)]
+    else:
+        movies_Aventure=pd.DataFrame() # Crear un DataFrame vacío si no se encuentran películas
+    #--------------------------------------------------------------------------------
+    # Obtener películas de un género específico
+    tmdb_data_Suspenso = get_tmdb_movies(max_random_movies, genre_id=53)  # Pasar el ID del género 'Suspenso'
+
+    if tmdb_data_Suspenso:
+        movies_Suspenso = pd.DataFrame(tmdb_data_Suspenso['results'])
+        movies_Suspenso['features'] = movies_Suspenso['title'] + ' ' + movies_Suspenso['overview']
+        movies_Suspenso['genre_id'] = 53    # Agregar una columna 'genre_id' con el ID del género 'Aventura'
+        movies_Suspenso = movies_Suspenso[movies_Suspenso['genre_ids'].apply(lambda x: 53 in x)]
+    else:
+        movies_Suspenso=pd.DataFrame() # Crear un DataFrame vacío si no se encuentran películas
+
+
+
+
+    return render_template('index.html', random_movies=random_movies, 
+    user_selection=user_selection, backdrop_url=full_backdrop_url, carousel_movies=carousel_movies, movies_animation=movies_animation, movies_Fiction=movies_Fiction,movies_Aventure=movies_Aventure, movies_Suspenso=movies_Suspenso)
+    #---)Radilla
 
 # Ruta para mostrar recomendaciones
 @app.route('/recommendations', methods=['POST'])

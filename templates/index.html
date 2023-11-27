@@ -86,6 +86,57 @@
 
     <main class="container mx-auto my-8">
         <h2 class="text-xl font-semibold mb-4">Selecciona 5 películas:</h2>
+    <div class="carousel">
+        Aleatorias
+        {% for movie in carousel_movies.iterrows() %}
+            <div class="carousel-slide">
+                <img src="https://image.tmdb.org/t/p/w400{{ movie.1.poster_path }}" alt="{{ movie.1.title }}" class="carousel-image">
+                <!-- Otros detalles de la película si es necesario -->
+                <p class="text-center">{{ movie.1.title }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="carousel">
+        Animacion
+        {% for movie in movies_animation.iterrows() %}
+            <div class="carousel-slide">
+                <img src="https://image.tmdb.org/t/p/w400{{ movie.1.poster_path }}" alt="{{ movie.1.title }}" class="carousel-image">
+                <!-- Otros detalles de la película si es necesario -->
+                <p class="text-center">{{ movie.1.title }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="carousel">
+        Ficcion
+        {% for movie in movies_Fiction.iterrows() %}
+            <div class="carousel-slide">
+                <img src="https://image.tmdb.org/t/p/w400{{ movie.1.poster_path }}" alt="{{ movie.1.title }}" class="carousel-image">
+                <!-- Otros detalles de la película si es necesario -->
+                <p class="text-center">{{ movie.1.title }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="carousel">
+        Aventura
+        {% for movie in movies_Aventure.iterrows() %}
+            <div class="carousel-slide">
+                <img src="https://image.tmdb.org/t/p/w400{{ movie.1.poster_path }}" alt="{{ movie.1.title }}" class="carousel-image">
+                <!-- Otros detalles de la película si es necesario -->
+                <p class="text-center">{{ movie.1.title }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="carousel">
+        Suspenso
+        {% for movie in movies_Suspenso.iterrows() %}
+            <div class="carousel-slide">
+                <img src="https://image.tmdb.org/t/p/w400{{ movie.1.poster_path }}" alt="{{ movie.1.title }}" class="carousel-image">
+                <!-- Otros detalles de la película si es necesario -->
+                <p class="text-center">{{ movie.1.title }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
         <form action="/recommendations" method="post">
             <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {% for movie in random_movies.iterrows() %}
